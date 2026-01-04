@@ -1,65 +1,223 @@
-import Image from "next/image";
+"use client";
 
-export default function Home() {
+import {
+  AppBar,
+  Box,
+  Button,
+  Container,
+  Toolbar,
+  Typography,
+  Grid,
+  Card,
+  CardContent,
+  Stack,
+} from "@mui/material";
+
+export default function HomePage() {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+    <Box>
+      {/* ================= HEADER ================= */}
+      <AppBar
+        position="sticky"
+        elevation={0}
+        sx={{
+          backgroundColor: "white",
+          borderBottom: "1px solid #eee",
+        }}
+      >
+        <Toolbar sx={{ justifyContent: "space-between" }}>
+          {/* Left: Brand */}
+          <Typography
+            variant="h6"
+            sx={{ fontWeight: 700, color: "black" }}
           >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+            InterviewConsult
+          </Typography>
+
+          {/* Right: Auth */}
+          <Stack direction="row" spacing={2}>
+            <Button color="inherit" href="/auth/signin"sx={{
+                backgroundColor: "black",
+                "&:hover": { backgroundColor: "#222" },
+              }}>
+              Login
+            </Button>
+            <Button
+              variant="contained"
+
+              href="/prepare"
+              sx={{
+                backgroundColor: "black",
+                "&:hover": { backgroundColor: "#222" },
+              }}
+            >
+              Sign Up
+            </Button>
+          </Stack>
+        </Toolbar>
+      </AppBar>
+
+      {/* ================= HERO ================= */}
+      <Box
+        sx={{
+          py: { xs: 8, md: 14 },
+          background:
+            "linear-gradient(135deg, #f9fafb 0%, #eef2f7 100%)",
+        }}
+      >
+        <Container maxWidth="md">
+          <Stack spacing={4} textalign="center">
+            <Typography
+              variant="h2"
+              fontWeight={800}
+              lineHeight={1.2}
+            >
+              Ready for your next interview?
+              <br />
+              <span style={{ color: "#555" }}>
+                Consult with real experts.
+              </span>
+            </Typography>
+
+            <Typography variant="h6" color="text.secondary">
+              Personalized interview preparation with real mentors,
+              live mock interviews, and focused guidance — exactly
+              what interviewers want to hear.
+            </Typography>
+
+            <Stack
+              direction={{ xs: "column", sm: "row" }}
+              spacing={2}
+              justifyContent="center"
+            >
+            <Button
+  size="large"
+  variant="contained"
+  href="/prepare"
+  sx={{
+    px: 4,
+    py: 1.5,
+    backgroundColor: "black",
+    "&:hover": { backgroundColor: "#222" },
+  }}
+>
+  Start Preparing
+</Button>
+
+
+              <Button
+                size="large"
+                variant="outlined"
+                href="/become-mentor"
+                sx={{
+                  px: 4,
+                  py: 1.5,
+                  borderColor: "black",
+                  color: "black",
+                  "&:hover": {
+                    borderColor: "black",
+                    backgroundColor: "#f5f5f5",
+                  },
+                }}
+              >
+                Become a Mentor
+              </Button>
+            </Stack>
+          </Stack>
+        </Container>
+      </Box>
+
+      {/* ================= VALUE PROPOSITION ================= */}
+      <Container sx={{ py: 10 }}>
+        <Grid container spacing={4}>
+          {[
+            {
+              title: "Real Mentors, Real Interviews",
+              desc: "Talk to engineers who have interviewed at top companies and know exactly what matters.",
+            },
+            {
+              title: "Time-Bound, Focused Sessions",
+              desc: "15-minute focused discussions. No fluff. No theory overload.",
+            },
+            {
+              title: "Personalized Journey",
+              desc: "Your experience, your target company, your gaps — we tailor everything.",
+            },
+          ].map((item) => (
+            <Grid item xs={12} md={4} key={item.title}>
+              <Card
+                elevation={0}
+                sx={{
+                  height: "100%",
+                  border: "1px solid #eee",
+                  borderRadius: 3,
+                }}
+              >
+                <CardContent>
+                  <Typography
+                    variant="h6"
+                    fontWeight={700}
+                    gutterBottom
+                  >
+                    {item.title}
+                  </Typography>
+                  <Typography color="text.secondary">
+                    {item.desc}
+                  </Typography>
+                </CardContent>
+              </Card>
+            </Grid>
+          ))}
+        </Grid>
+      </Container>
+
+      {/* ================= CTA ================= */}
+      <Box
+        sx={{
+          py: 10,
+          backgroundColor: "#111",
+          color: "white",
+        }}
+      >
+        <Container maxWidth="sm" textalign="center">
+          <Typography variant="h4" fontWeight={700} gutterBottom>
+            Your interview journey starts here
+          </Typography>
+
+          <Typography color="gray" mb={4}>
+            Stop preparing alone. Get clarity, confidence, and
+            direction from people who’ve been there.
+          </Typography>
+
+          <Button
+            size="large"
+            variant="contained"
+            sx={{
+              px: 5,
+              py: 1.5,
+              backgroundColor: "white",
+              color: "black",
+              "&:hover": { backgroundColor: "#eee" },
+            }}
           >
-            Documentation
-          </a>
-        </div>
-      </main>
-    </div>
+            Get Started Free
+          </Button>
+        </Container>
+      </Box>
+
+      {/* ================= FOOTER ================= */}
+      <Box sx={{ py: 4, backgroundColor: "#fafafa" }}>
+        <Container>
+          <Typography
+            variant="body2"
+            color="text.secondary"
+            textalign="center"
+          >
+            © {new Date().getFullYear()} InterviewConsult. All rights
+            reserved.
+          </Typography>
+        </Container>
+      </Box>
+    </Box>
   );
 }
