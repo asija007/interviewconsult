@@ -575,7 +575,7 @@ import { joinMatchingQueue, tryMatchUser } from "@/lib/matching";
 
 import AppHeader from "../components/AppHeader";
 import AppFooter from "../components/AppFooter";
-
+const skills = ["react", "typescript"];
 export default function PaymentPage() {
   const { user, loading } = useAuth();
   const router = useRouter();
@@ -673,7 +673,8 @@ useEffect(() => {
       const sessionId = await tryMatchUser(
         user!.uid,
         intent,
-        company
+        company, 
+        skills
       );
 
       if (sessionId) {

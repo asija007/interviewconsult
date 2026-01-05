@@ -66,7 +66,7 @@ export default function HomePage() {
         }}
       >
         <Container maxWidth="md">
-          <Stack spacing={4} textalign="center">
+          <Stack spacing={4} sx={{ textAlign: "center" }}>
             <Typography
               variant="h2"
               fontWeight={800}
@@ -179,7 +179,7 @@ export default function HomePage() {
           color: "white",
         }}
       >
-        <Container maxWidth="sm" textalign="center">
+        <Container maxWidth="sm" sx={{ textAlign: "center" }}>
           <Typography variant="h4" fontWeight={700} gutterBottom>
             Your interview journey starts here
           </Typography>
@@ -211,7 +211,7 @@ export default function HomePage() {
           <Typography
             variant="body2"
             color="text.secondary"
-            textalign="center"
+            textAlign="center"
           >
             © {new Date().getFullYear()} InterviewConsult. All rights
             reserved.

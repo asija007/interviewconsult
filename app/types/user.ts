@@ -6,4 +6,5 @@ export type UserProfile = {
   experience?: "3-4" | "5-6";
   targetCompany?: string;
   onboarded: boolean;
+  createdAt: number; 
 };
