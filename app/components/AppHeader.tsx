@@ -64,7 +64,7 @@ export default function AppHeader() {
                 </Link>
 
                 <Link
-                  href="/auth/signup"
+                  href="/signup"
                   className="rounded bg-black px-4 py-2 text-sm text-white"
                 >
                   Sign up
@@ -115,7 +115,7 @@ export default function AppHeader() {
               </Link>
 
               <Link
-                href="/auth/signup"
+                href="/signup"
                 onClick={() => setOpen(false)}
                 className="block rounded bg-black px-4 py-2 text-sm text-white text-center"
               >

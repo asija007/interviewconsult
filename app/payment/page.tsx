@@ -674,7 +674,7 @@ useEffect(() => {
         user!.uid,
         intent,
         company, 
-        skills
+       
       );
 
       if (sessionId) {

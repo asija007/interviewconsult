@@ -36,7 +36,7 @@ export default function HomePage() {
 
           {/* Right: Auth */}
           <Stack direction="row" spacing={2}>
-            <Button color="inherit" href="/auth/signin"sx={{
+            <Button color="inherit" href="/signup" sx={{
                 backgroundColor: "black",
                 "&:hover": { backgroundColor: "#222" },
               }}>

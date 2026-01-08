@@ -1,66 +1,66 @@
-// import {
-//   collection,
-//   doc,
-//   getDocs,
-//   query,
-//   setDoc,
-//   where,
-//   deleteDoc
-// } from "firebase/firestore";
-// import { db } from "./firebase";
+import {
+  collection,
+  doc,
+  getDocs,
+  query,
+  setDoc,
+  where,
+  deleteDoc
+} from "firebase/firestore";
+import { db } from "./firebase";
 
-// export const joinMatchingQueue = async (
-//   uid: string,
-//   intent: "mentor" | "mentee",
-//   company: string
-// ) => {
-//   await setDoc(doc(db, "matchingQueue", uid), {
-//     uid,
-//     intent,
-//     company,
-//     joinedAt: Date.now(),
-//   });
-// };
+export const joinMatchingQueue = async (
+  uid: string,
+  intent: "mentor" | "mentee",
+  company: string
+) => {
+  await setDoc(doc(db, "matchingQueue", uid), {
+    uid,
+    intent,
+    company,
+    joinedAt: Date.now(),
+  });
+};
 
-// export const tryMatchUser = async (
-//   uid: string,
-//   intent: "mentor" | "mentee",
-//   company: string
-// ) => {
-//   const oppositeIntent = intent === "mentor" ? "mentee" : "mentor";
+export const tryMatchUser = async (
+  uid: string,
+  intent: "mentor" | "mentee",
+  company: string
+) => {
+  const oppositeIntent = intent === "mentor" ? "mentee" : "mentor";
 
-//   const q = query(
-//     collection(db, "matchingQueue"),
-//     where("intent", "==", oppositeIntent),
-//     where("company", "==", company)
-//   );
+  const q = query(
+    collection(db, "matchingQueue"),
+    where("intent", "==", oppositeIntent),
+    where("company", "==", company)
+  );
 
-//   const snapshot = await getDocs(q);
+  const snapshot = await getDocs(q);
 
-//   if (snapshot.empty) return null;
+  if (snapshot.empty) return null;
 
-//   const matchedUser = snapshot.docs[0].data();
-//  const sessionId = [uid, matchedUser.uid].sort().join("_");
+  const matchedUser = snapshot.docs[0].data();
+ const sessionId = [uid, matchedUser.uid].sort().join("_");
 
 
-//   const mentorId = intent === "mentor" ? uid : matchedUser.uid;
-//   const menteeId = intent === "mentee" ? uid : matchedUser.uid;
+  const mentorId = intent === "mentor" ? uid : matchedUser.uid;
+  const menteeId = intent === "mentee" ? uid : matchedUser.uid;
 
-//   await setDoc(doc(db, "mentoringSessions", sessionId), {
-//     mentorId,
-//     menteeId,
-//     company,
-//     startedAt: Date.now(),
-//     expiresAt: Date.now() + 15 * 60 * 1000, // 15 mins
-//     active: true,
-//   });
+  await setDoc(doc(db, "mentoringSessions", sessionId), {
+    mentorId,
+    menteeId,
+    company,
+    startedAt: Date.now(),
+    expiresAt: Date.now() + 15 * 60 * 1000, // 15 mins
+    active: true,
+  });
 
-//   // Remove both users from queue
-//   await deleteDoc(doc(db, "matchingQueue", uid));
-//   await deleteDoc(doc(db, "matchingQueue", matchedUser.uid));
+  // Remove both users from queue
+  await deleteDoc(doc(db, "matchingQueue", uid));
+  await deleteDoc(doc(db, "matchingQueue", matchedUser.uid));
 
-//   return sessionId;
-// };
+  return sessionId;
+};
 
 
 // import {
@@ -133,92 +133,98 @@
 
 
 
-import {
-  collection,
-  doc,
-  getDocs,
-  query,
-  setDoc,
-  where,
-  deleteDoc,
-  addDoc,
-} from "firebase/firestore";
-import { db } from "./firebase";
+// import {
+//   collection,
+//   doc,
+//   getDocs,
+//   query,
+//   setDoc,
+//   where,
+//   deleteDoc,
+//   addDoc,
+// } from "firebase/firestore";
+// import { db } from "./firebase";
 
-export const joinMatchingQueue = async (
-  uid: string,
-  intent: "mentor" | "mentee",
-  company: string,
-  skills?: string[]   // optional
-) => {
-  await setDoc(doc(db, "matchingQueue", uid), {
-    uid,
-    intent,
-    company,
-    skills: skills ?? [],   // ✅ NEVER undefined
-    joinedAt: Date.now(),
-  });
-};
+// export const joinMatchingQueue = async (
+//   uid: string,
+//   intent: "mentor" | "mentee",
+//   company: string,
+//   skills?: string[]   // optional
+// ) => {
+//   await setDoc(doc(db, "matchingQueue", uid), {
+//     uid,
+//     intent,
+//     company,
+//     skills: skills ?? [],   // ✅ NEVER undefined
+//     joinedAt: Date.now(),
+//   });
+// };
 
 
 
-export const tryMatchUser = async (
-  uid: string,
-  intent: "mentor" | "mentee",
-  company: string,
-  skills: string[]
-) => {
-  const oppositeIntent =
-    intent === "mentor" ? "mentee" : "mentor";
+// export const tryMatchUser = async (
+//   uid: string,
+//   intent: "mentor" | "mentee",
+//   company: string,
+//   skills: string[]
+// ) => {
+//   const oppositeIntent =
+//     intent === "mentor" ? "mentee" : "mentor";
 
-  // 🔥 Base filters
-  const filters: any[] = [
-    where("intent", "==", oppositeIntent),
-    where("company", "==", company),
-  ];
+//   // 🔹 Query ONLY by intent + company
+//   const q = query(
+//     collection(db, "matchingQueue"),
+//     where("intent", "==", oppositeIntent),
+//     where("company", "==", company)
+//   );
 
-  // 🔥 Apply skill filter ONLY if skills exist
-  if (skills && skills.length > 0) {
-    filters.push(
-      where("skills", "array-contains-any", skills)
-    );
-  }
+//   const snapshot = await getDocs(q);
+//   if (snapshot.empty) return null;
 
-  const q = query(
-    collection(db, "matchingQueue"),
-    ...filters
-  );
+//   // 🔹 Filter in JS (SAFE)
+//   const candidates = snapshot.docs
+//     .map((doc) => doc.data())
+//     .filter((user) => user.uid !== uid);
 
-  const snapshot = await getDocs(q);
+//   if (candidates.length === 0) return null;
 
-  if (snapshot.empty) return null;
+//   // 🔹 Optional skill matching (soft match)
+//   let matchedUser = candidates[0];
 
-  const matchedUser = snapshot.docs[0].data();
+//   if (skills?.length > 0) {
+//     const skillMatched = candidates.find((user) =>
+//       user.skills?.some((s: string) => skills.includes(s))
+//     );
 
-  const mentorId =
-    intent === "mentor" ? uid : matchedUser.uid;
+//     if (skillMatched) {
+//       matchedUser = skillMatched;
+//     }
+//   }
 
-  const menteeId =
-    intent === "mentee" ? uid : matchedUser.uid;
+//   const mentorId =
+//     intent === "mentor" ? uid : matchedUser.uid;
+//   const menteeId =
+//     intent === "mentee" ? uid : matchedUser.uid;
 
-  const sessionRef = await addDoc(
-    collection(db, "mentoringSessions"),
-    {
-      mentorId,
-      menteeId,
-      company,
-      skillsMatched: skills ?? [],
-      startedAt: Date.now(),
-      expiresAt: Date.now() + 15 * 60 * 1000,
-      active: true,
-    }
-  );
+//   const sessionRef = await addDoc(
+//     collection(db, "mentoringSessions"),
+//     {
+//       mentorId,
+//       menteeId,
+//       company,
+//       skillsMatched: skills ?? [],
+//       startedAt: Date.now(),
+//       expiresAt: Date.now() + 15 * 60 * 1000,
+//       active: true,
+//     }
+//   );
 
-  // Remove both users from queue
-  await deleteDoc(doc(db, "matchingQueue", uid));
-  await deleteDoc(doc(db, "matchingQueue", matchedUser.uid));
+//   // Remove both users from queue
+//   await deleteDoc(doc(db, "matchingQueue", uid));
+//   await deleteDoc(doc(db, "matchingQueue", matchedUser.uid));
 
-  return sessionRef.id;
-};
+//   return sessionRef.id;
+// };
+
 
 
